@@ -1,0 +1,27 @@
+mkdocs
+mkdocs-material
+mkdocs-awesome-pages-plugin
+
+# mermaidを使う場合
+mkdocs-mermaid2-plugin
+
+# plantumlを使う場合
+plantuml-markdown
+
+# drawioを使う場合
+mkdocs-drawio-exporter
+
+# openapiを使う場合
+mkdocs-render-swagger-plugin
+
+# 数式を綺麗に表示したい場合
+python-markdown-math
+
+# コードハイライト
+pygments
+
+# 更新日時を表示したい場合
+mkdocs-git-revision-date-localized-plugin
+
+pymdown-extensions
+mkdocs-gen-files

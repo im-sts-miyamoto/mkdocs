@@ -1,0 +1,42 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # mainブランチへのプッシュ時に実行
+    paths:
+      - 'docs/**'  # docs配下のファイルに変更があった場合のみ実行
+  workflow_dispatch:  # 手動実行も可能
+
+permissions:
+  contents: write  # gh-pagesブランチへの書き込み権限が必要
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 全履歴を取得（gh-deployがコミット履歴を使用するため）
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.x  # 最新の3.x系を使用
+          cache: 'pip'  # pipキャッシュを有効化してビルドを高速化
+
+      - name: Install dependencies
+        run: |
+          pip install -r docs/requirements.txt
+
+      - name: Build and Deploy
+        # mkdocs gh-deploy: MkDocsサイトをビルドし、gh-pagesブランチに自動デプロイ
+        # 主なオプション:
+        #   --config-file: MkDocs設定ファイルのパス
+        #   --force: 既存のgh-pagesブランチを強制的に上書き
+        #   --remote-branch: デプロイ先ブランチ名（デフォルト: gh-pages）
+        #   --message: コミットメッセージのカスタマイズ
+        run: mkdocs gh-deploy --config-file docs/mkdocs.yml --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,113 @@
+site_name: 汎用ドキュメント置き場
+site_url: https://im-sts-miyamoto.github.io/mkdocs/
+repo_name: im-sts-miyamoto/mkdocs
+repo_url: https://github.com/im-sts-miyamoto/mkdocs
+docs_dir: src
+site_dir: ../site
+theme:
+  name: material
+  language: ja
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - java
+    - typescript
+    - javascript
+    - xml
+  font:
+    text: Noto Sans
+    code: Inconsolata
+  features:
+    - content.code.copy
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.expand
+    - navigation.top
+    - navigation.tabs
+    - navigation.path
+    - header.autohide
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+  palette:
+    # ライトモード
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-sunny
+        name: ダークモードに切り替え
+    # ダークモード
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-night
+        name: ライトモードに切り替え
+
+copyright: Copyright 2025 infomart Inc.
+
+nav:
+  - ホーム: index.md
+  - 認証・認可:
+    - 概要: auth-basics.md
+    - OAuth 2.0 / OIDC: oauth-oidc-basics.md
+    - セキュリティ対策: security-practices.md
+    - 実装ガイド: implementation-guide.md
+    - 包括的リファレンス: authentication-guide.md
+
+plugins:
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: iso_date
+      fallback_to_build_date: true
+  - search:
+      lang: ja
+      separator: '[\s\-\.]'
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
