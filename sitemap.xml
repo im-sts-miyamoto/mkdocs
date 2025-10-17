@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/auth-basics/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/authentication-guide/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/implementation-guide/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/oauth-oidc-basics/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ry-miyamoto-sts.github.io/mkdocs/security-practices/</loc>
+         <lastmod>2025-10-17</lastmod>
+    </url>
+</urlset>
