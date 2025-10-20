@@ -14,8 +14,6 @@
         <link rel="prev" href="../basics/">
       
       
-        <link rel="next" href="../reference/">
-      
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
@@ -238,13 +236,32 @@
   
   
   
+  
+    <li class="md-tabs__item">
+      <a href="../../web-basics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Webアプリケーション基礎
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
     
   
   
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../basics/" class="md-tabs__link">
           
   
   
@@ -327,6 +344,28 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webアプリケーション基礎
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -346,10 +385,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -362,35 +401,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             認証・認可
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    トップ
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -585,29 +601,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../reference/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    リファレンス
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -773,7 +766,6 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 <h2 id="_1">📚 関連ドキュメント<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li>前提知識: <strong><a href="../basics/">基礎知識</a></strong> - 認証・認可の基本概念</li>
-<li>高度な内容: <strong><a href="../reference/">リファレンス</a></strong> - 最新セキュリティ技術</li>
 </ul>
 <hr />
 <h2 id="_2">システム構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
@@ -1122,7 +1114,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </details>
 <hr />
 <h2 id="_5">セキュリティ対策<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<details class="note">
+<details class="danger">
 <summary>Cookie 設定</summary>
 <div class="language-javascript highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1">// Next.js</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nb">Set</span><span class="o">-</span><span class="nx">Cookie</span><span class="o">:</span><span class="w"> </span><span class="nx">session_id</span><span class="o">=</span><span class="nx">xxx</span><span class="p">;</span>
@@ -1133,7 +1125,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="nx">Max</span><span class="o">-</span><span class="nx">Age</span><span class="o">=</span><span class="mf">2592000</span><span class="w">   </span><span class="c1">// 30日</span>
 </span></code></pre></div>
 </details>
-<details class="note">
+<details class="danger">
 <summary>CSP 設定</summary>
 <div class="language-typescript highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// next.config.js</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">securityHeaders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
@@ -1152,7 +1144,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="p">];</span>
 </span></code></pre></div>
 </details>
-<details class="note">
+<details class="warning">
 <summary>トークン保管場所</summary>
 <table>
 <thead>
@@ -1181,7 +1173,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </tbody>
 </table>
 </details>
-<details class="note">
+<details class="danger">
 <summary>脅威と対策</summary>
 <table>
 <thead>
@@ -1217,7 +1209,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </details>
 <hr />
 <h2 id="_6">チェックリスト<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<details class="note">
+<details class="success">
 <summary>AWS Cognito</summary>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> ユーザープール作成</li>
@@ -1227,7 +1219,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> MFA有効化(推奨)</li>
 </ul>
 </details>
-<details class="note">
+<details class="success">
 <summary>Next.js</summary>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> NextAuth インストール・設定</li>
@@ -1237,7 +1229,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> CSP ヘッダー設定</li>
 </ul>
 </details>
-<details class="note">
+<details class="success">
 <summary>Spring Boot</summary>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> OAuth2 Resource Server 設定</li>
@@ -1246,7 +1238,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> API エンドポイント実装</li>
 </ul>
 </details>
-<details class="note">
+<details class="success">
 <summary>セキュリティ</summary>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> HTTPS 有効化</li>
@@ -1258,7 +1250,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </details>
 <hr />
 <h2 id="_7">トラブルシューティング<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<details class="note">
+<details class="warning">
 <summary>401 Unauthorized</summary>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># トークン検証失敗</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>-<span class="w"> </span>issuer-uri<span class="w"> </span>が正しいか確認
@@ -1266,14 +1258,14 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>-<span class="w"> </span>JWKS<span class="w"> </span>URI<span class="w"> </span>にアクセス可能か確認
 </span></code></pre></div>
 </details>
-<details class="note">
+<details class="warning">
 <summary>CORS エラー</summary>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Next.js と Spring Boot の設定確認</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>-<span class="w"> </span>Spring<span class="w"> </span>Boot:<span class="w"> </span>allowedOrigins<span class="w"> </span>に<span class="w"> </span>Next.js<span class="w"> </span>URL
 </span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>-<span class="w"> </span>allowCredentials:<span class="w"> </span><span class="nb">true</span>
 </span></code></pre></div>
 </details>
-<details class="note">
+<details class="warning">
 <summary>トークンリフレッシュ失敗</summary>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># リフレッシュトークンの確認</span>
 </span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>-<span class="w"> </span>有効期限内か
@@ -1282,10 +1274,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </details>
 <hr />
 <h2 id="_8">次のステップ<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>より高度な実装については以下を参照:</p>
-<ul>
-<li><strong><a href="../reference/">リファレンス</a></strong> - DPoP、mTLS、FAPI などの最新セキュリティ技術</li>
-</ul>
+<p>この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、<strong><a href="../basics/">基礎知識</a></strong> に戻って概念を再確認することをお勧めします。</p>
 <hr />
 <p><strong>最終更新:</strong> 2025年10月
 <strong>対象読者:</strong> 認証機能を実装する開発者(中級)</p>
@@ -1311,7 +1300,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年10月20日 02:17:43 UTC">2025-10-20</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年10月20日 17:34:33 UTC">2025-10-20</span>
   </span>
 
     
