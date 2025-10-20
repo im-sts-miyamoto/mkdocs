@@ -10,9 +10,9 @@
 
 ---
 
-??? note "2025年の最新動向"
+## 2025年の最新動向
 
-    ### サードパーティCookie廃止の影響
+??? note "サードパーティCookie廃止の影響"
 
     **影響:**
 
@@ -27,7 +27,7 @@
     - ✅ **FedCM(Federated Credential Management)** - ブラウザネイティブSSO
     - ✅ **Authorization Code + PKCE**
 
-    ### OAuth 2.1への移行
+??? note "OAuth 2.1への移行"
 
     **主な変更点:**
 
@@ -39,9 +39,9 @@
 
 ---
 
-??? note "最新セキュリティ強化技術"
+## 最新セキュリティ強化技術
 
-    ### DPoP (Demonstrating Proof-of-Possession)
+??? note "DPoP (Demonstrating Proof-of-Possession)"
 
     **目的:** トークン窃取後の不正利用を防ぐ
 
@@ -104,9 +104,7 @@
     });
     ```
 
-    ---
-
-    ### mTLS (Mutual TLS)
+??? note "mTLS (Mutual TLS)"
 
     **目的:** クライアント認証の強化
 
@@ -136,9 +134,7 @@
         trust-store-password: changeit
     ```
 
-    ---
-
-    ### PAR (Pushed Authorization Requests)
+??? note "PAR (Pushed Authorization Requests)"
 
     **目的:** 認可リクエストを安全に送信
 
@@ -161,9 +157,7 @@
     - ✅ リクエストの完全性を保証
     - ✅ 大きなリクエストにも対応
 
-    ---
-
-    ### FAPI (Financial-grade API)
+??? note "FAPI (Financial-grade API)"
 
     **目的:** 金融グレードのセキュリティ
 
@@ -184,9 +178,9 @@
 
 ---
 
-??? note "アーキテクチャパターン"
+## アーキテクチャパターン
 
-    ### パターン1: BFF (Backend for Frontend)
+??? note "パターン1: BFF (Backend for Frontend)"
 
     **構成:**
 
@@ -205,9 +199,7 @@
 
     **適用:** SPA、モバイルアプリ(推奨)
 
-    ---
-
-    ### パターン2: トークンリレー
+??? note "パターン2: トークンリレー"
 
     **構成:**
 
@@ -225,9 +217,7 @@
 
     **適用:** マイクロサービスアーキテクチャ
 
-    ---
-
-    ### パターン3: Zero Trust
+??? note "パターン3: Zero Trust"
 
     **原則:**
 
@@ -255,9 +245,9 @@
 
 ---
 
-??? note "WebAuthn / パスキー"
+## WebAuthn / パスキー
 
-    ### パスキーの仕組み
+??? note "パスキーの仕組み"
 
     ```mermaid
     sequenceDiagram
@@ -319,9 +309,9 @@
 
 ---
 
-??? note "レガシーシステムのモダナイゼーション"
+## レガシーシステムのモダナイゼーション
 
-    ### セッションベースからトークンベースへ
+??? note "セッションベースからトークンベースへ"
 
     **段階的移行:**
 
@@ -370,9 +360,7 @@
     - すべてトークンベース
     - セッションストレージ削除
 
-    ---
-
-    ### 自前認証からOAuth/OIDCへ
+??? note "自前認証からOAuth/OIDCへ"
 
     **移行戦略:**
 
@@ -409,9 +397,9 @@
 
 ---
 
-??? note "トラブルシューティング"
+## トラブルシューティング
 
-    ### トークン検証エラー
+??? note "トークン検証エラー"
 
     ```bash
     # 原因
@@ -425,7 +413,7 @@
     - ログで詳細エラー確認
     ```
 
-    ### CORS エラー
+??? note "CORS エラー"
 
     ```bash
     # 原因
@@ -437,7 +425,7 @@
     - allowCredentials: true 設定
     ```
 
-    ### リフレッシュトークン失敗
+??? note "リフレッシュトークン失敗"
 
     ```bash
     # 原因

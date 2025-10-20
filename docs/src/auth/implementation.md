@@ -10,9 +10,9 @@
 
 ---
 
-??? note "システム構成"
+## システム構成
 
-    ### アーキテクチャ(BFFパターン)
+??? note "アーキテクチャ(BFFパターン)"
 
     ```mermaid
     graph TB
@@ -43,9 +43,9 @@
 
 ---
 
-??? note "認証フロー"
+## 認証フロー
 
-    ### 初回ログイン
+??? note "初回ログイン"
 
     ```mermaid
     sequenceDiagram
@@ -72,9 +72,9 @@
 
 ---
 
-??? note "AWS Cognito 設定"
+## AWS Cognito 設定
 
-    ### ユーザープール作成
+??? note "ユーザープール作成"
 
     ```bash
     # 認証フロー
@@ -121,9 +121,9 @@
 
 ---
 
-??? note "Next.js 実装"
+## Next.js 実装
 
-    ### 1. NextAuth 設定
+??? note "1. NextAuth 設定"
 
     ```bash
     npm install next-auth
@@ -206,7 +206,7 @@
     export { handler as GET, handler as POST };
     ```
 
-    ### 2. API プロキシ(BFF)
+??? note "2. API プロキシ(BFF)"
 
     ```typescript
     // app/api/users/profile/route.ts
@@ -242,7 +242,7 @@
     }
     ```
 
-    ### 3. クライアント側
+??? note "3. クライアント側"
 
     ```typescript
     // app/page.tsx
@@ -270,9 +270,9 @@
 
 ---
 
-??? note "Spring Boot 実装"
+## Spring Boot 実装
 
-    ### 1. 依存関係
+??? note "1. 依存関係"
 
     ```xml
     <!-- pom.xml -->
@@ -286,7 +286,7 @@
     </dependency>
     ```
 
-    ### 2. セキュリティ設定
+??? note "2. セキュリティ設定"
 
     ```java
     @Configuration
@@ -332,7 +332,7 @@
     }
     ```
 
-    ### 3. API実装
+??? note "3. API実装"
 
     ```java
     @RestController
@@ -352,7 +352,7 @@
     }
     ```
 
-    ### 4. 設定ファイル
+??? note "4. 設定ファイル"
 
     ```yaml
     # application.yml
@@ -367,9 +367,9 @@
 
 ---
 
-??? note "セキュリティ対策"
+## セキュリティ対策
 
-    ### Cookie 設定
+??? note "Cookie 設定"
 
     ```javascript
     // Next.js
@@ -381,7 +381,7 @@
       Max-Age=2592000   // 30日
     ```
 
-    ### CSP 設定
+??? note "CSP 設定"
 
     ```typescript
     // next.config.js
@@ -401,7 +401,7 @@
     ];
     ```
 
-    ### トークン保管場所
+??? note "トークン保管場所"
 
     | 場所 | 用途 | セキュリティ |
     |------|------|------------|
@@ -409,7 +409,7 @@
     | **HttpOnly Cookie** | セッションID | ✅ 安全 |
     | ~~LocalStorage~~ | なし | ❌ 使用禁止 |
 
-    ### 脅威と対策
+??? note "脅威と対策"
 
     | 脅威 | 対策 | 実装 |
     |------|------|------|
@@ -420,9 +420,9 @@
 
 ---
 
-??? note "チェックリスト"
+## チェックリスト
 
-    ### AWS Cognito
+??? note "AWS Cognito"
 
     - [ ] ユーザープール作成
     - [ ] アプリクライアント設定(Authorization Code + PKCE)
@@ -430,7 +430,7 @@
     - [ ] コールバックURL登録
     - [ ] MFA有効化(推奨)
 
-    ### Next.js
+??? note "Next.js"
 
     - [ ] NextAuth インストール・設定
     - [ ] 環境変数設定
@@ -438,14 +438,14 @@
     - [ ] Cookie セキュリティ設定
     - [ ] CSP ヘッダー設定
 
-    ### Spring Boot
+??? note "Spring Boot"
 
     - [ ] OAuth2 Resource Server 設定
     - [ ] JWT Decoder 設定
     - [ ] CORS 設定
     - [ ] API エンドポイント実装
 
-    ### セキュリティ
+??? note "セキュリティ"
 
     - [ ] HTTPS 有効化
     - [ ] HttpOnly Cookie 使用
@@ -455,9 +455,9 @@
 
 ---
 
-??? note "トラブルシューティング"
+## トラブルシューティング
 
-    ### 401 Unauthorized
+??? note "401 Unauthorized"
 
     ```bash
     # トークン検証失敗
@@ -466,7 +466,7 @@
     - JWKS URI にアクセス可能か確認
     ```
 
-    ### CORS エラー
+??? note "CORS エラー"
 
     ```bash
     # Next.js と Spring Boot の設定確認
@@ -474,7 +474,7 @@
     - allowCredentials: true
     ```
 
-    ### トークンリフレッシュ失敗
+??? note "トークンリフレッシュ失敗"
 
     ```bash
     # リフレッシュトークンの確認
