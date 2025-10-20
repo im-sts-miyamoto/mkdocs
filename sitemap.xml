@@ -2,26 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://im-sts-miyamoto.github.io/mkdocs/</loc>
-         <lastmod>2025-10-17</lastmod>
+         <lastmod>2025-10-20</lastmod>
     </url>
     <url>
-         <loc>https://im-sts-miyamoto.github.io/mkdocs/auth-basics/</loc>
-         <lastmod>2025-10-17</lastmod>
+         <loc>https://im-sts-miyamoto.github.io/mkdocs/auth/</loc>
+         <lastmod>2025-10-20</lastmod>
     </url>
     <url>
-         <loc>https://im-sts-miyamoto.github.io/mkdocs/authentication-guide/</loc>
-         <lastmod>2025-10-17</lastmod>
+         <loc>https://im-sts-miyamoto.github.io/mkdocs/auth/basics/</loc>
+         <lastmod>2025-10-20</lastmod>
     </url>
     <url>
-         <loc>https://im-sts-miyamoto.github.io/mkdocs/implementation-guide/</loc>
-         <lastmod>2025-10-17</lastmod>
+         <loc>https://im-sts-miyamoto.github.io/mkdocs/auth/implementation/</loc>
+         <lastmod>2025-10-20</lastmod>
     </url>
     <url>
-         <loc>https://im-sts-miyamoto.github.io/mkdocs/oauth-oidc-basics/</loc>
-         <lastmod>2025-10-17</lastmod>
-    </url>
-    <url>
-         <loc>https://im-sts-miyamoto.github.io/mkdocs/security-practices/</loc>
-         <lastmod>2025-10-17</lastmod>
+         <loc>https://im-sts-miyamoto.github.io/mkdocs/auth/reference/</loc>
+         <lastmod>2025-10-20</lastmod>
     </url>
 </urlset>
