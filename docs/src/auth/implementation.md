@@ -6,7 +6,6 @@
 ## 📚 関連ドキュメント
 
 - 前提知識: **[基礎知識](basics.md)** - 認証・認可の基本概念
-- 高度な内容: **[リファレンス](reference.md)** - 最新セキュリティ技術
 
 ---
 
@@ -369,7 +368,7 @@
 
 ## セキュリティ対策
 
-??? note "Cookie 設定"
+??? danger "Cookie 設定"
 
     ```javascript
     // Next.js
@@ -381,7 +380,7 @@
       Max-Age=2592000   // 30日
     ```
 
-??? note "CSP 設定"
+??? danger "CSP 設定"
 
     ```typescript
     // next.config.js
@@ -401,7 +400,7 @@
     ];
     ```
 
-??? note "トークン保管場所"
+??? warning "トークン保管場所"
 
     | 場所 | 用途 | セキュリティ |
     |------|------|------------|
@@ -409,7 +408,7 @@
     | **HttpOnly Cookie** | セッションID | ✅ 安全 |
     | ~~LocalStorage~~ | なし | ❌ 使用禁止 |
 
-??? note "脅威と対策"
+??? danger "脅威と対策"
 
     | 脅威 | 対策 | 実装 |
     |------|------|------|
@@ -422,7 +421,7 @@
 
 ## チェックリスト
 
-??? note "AWS Cognito"
+??? success "AWS Cognito"
 
     - [ ] ユーザープール作成
     - [ ] アプリクライアント設定(Authorization Code + PKCE)
@@ -430,7 +429,7 @@
     - [ ] コールバックURL登録
     - [ ] MFA有効化(推奨)
 
-??? note "Next.js"
+??? success "Next.js"
 
     - [ ] NextAuth インストール・設定
     - [ ] 環境変数設定
@@ -438,14 +437,14 @@
     - [ ] Cookie セキュリティ設定
     - [ ] CSP ヘッダー設定
 
-??? note "Spring Boot"
+??? success "Spring Boot"
 
     - [ ] OAuth2 Resource Server 設定
     - [ ] JWT Decoder 設定
     - [ ] CORS 設定
     - [ ] API エンドポイント実装
 
-??? note "セキュリティ"
+??? success "セキュリティ"
 
     - [ ] HTTPS 有効化
     - [ ] HttpOnly Cookie 使用
@@ -457,7 +456,7 @@
 
 ## トラブルシューティング
 
-??? note "401 Unauthorized"
+??? warning "401 Unauthorized"
 
     ```bash
     # トークン検証失敗
@@ -466,7 +465,7 @@
     - JWKS URI にアクセス可能か確認
     ```
 
-??? note "CORS エラー"
+??? warning "CORS エラー"
 
     ```bash
     # Next.js と Spring Boot の設定確認
@@ -474,7 +473,7 @@
     - allowCredentials: true
     ```
 
-??? note "トークンリフレッシュ失敗"
+??? warning "トークンリフレッシュ失敗"
 
     ```bash
     # リフレッシュトークンの確認
@@ -486,9 +485,7 @@
 
 ## 次のステップ
 
-より高度な実装については以下を参照:
-
-- **[リファレンス](reference.md)** - DPoP、mTLS、FAPI などの最新セキュリティ技術
+この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、**[基礎知識](basics.md)** に戻って概念を再確認することをお勧めします。
 
 ---
 
