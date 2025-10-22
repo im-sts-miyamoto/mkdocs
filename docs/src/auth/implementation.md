@@ -483,9 +483,63 @@
 
 ---
 
+## 📚 参考資料
+
+### AWS公式ドキュメント
+
+??? info "AWS Black Belt オンラインセミナー - Amazon Cognito"
+
+    AWSが提供する公式の技術資料です。Cognitoの基礎から応用まで網羅的に解説されています。
+
+    **🎯 Amazon Cognito (2020年版)**
+
+    - **内容:** Cognitoの基本概念、ユーザープール、IDプール、認証フローの詳細
+    - **対象:** Cognito初学者〜中級者
+    - **資料:** [Amazon Cognito (PDF)](https://d1.awsstatic.com/webinars/jp/pdf/services/20200630_AWS_BlackBelt_Amazon%20Cognito.pdf)
+    - **おすすめポイント:**
+        - ✅ ユーザープールとIDプールの違いが理解できる
+        - ✅ OAuth 2.0 / OIDC のフロー図が豊富
+        - ✅ セキュリティベストプラクティスが網羅されている
+
+    ---
+
+    **🆕 Amazon Cognito - 認証認可とCIAMの構築方法 (2025年版)**
+
+    - **内容:** 最新のCognito機能、認証認可アーキテクチャ、CIAM (Customer Identity and Access Management) の実装パターン
+    - **対象:** 中級者〜上級者、エンタープライズ向け
+    - **資料:** [Amazon Cognito - How To Build AuthNZ CIAM (PDF)](https://pages.awscloud.com/rs/112-TZM-766/images/AWS-Black-Belt_2025_Amazon-Cognito-How-To-Build-AuthNZ-CIAM_0731_v1.pdf)
+    - **おすすめポイント:**
+        - ✅ **2025年最新版** - 最新機能とベストプラクティス
+        - ✅ SAML / OIDC フェデレーションの詳細設計
+        - ✅ マルチテナント対応、B2B / B2C / B2E パターン
+        - ✅ Lambda トリガーを使った高度なカスタマイズ
+        - ✅ セキュリティ強化（MFA、WAF連携、異常検知）
+
+    **📌 学習順序の推奨:**
+
+    ```
+    1. 2020年版でCognitoの基礎を学ぶ
+       ↓
+    2. このドキュメント（実装ガイド）で実装を試す
+       ↓
+    3. 2025年版で最新のアーキテクチャパターンを学ぶ
+    ```
+
+---
+
+### その他の参考資料
+
+??? tip "補足リソース"
+
+    - **AWS Cognito 公式ドキュメント:** [https://docs.aws.amazon.com/cognito/](https://docs.aws.amazon.com/cognito/)
+    - **NextAuth.js 公式ドキュメント:** [https://next-auth.js.org/](https://next-auth.js.org/)
+    - **Spring Security OAuth 2.0:** [https://spring.io/guides/tutorials/spring-boot-oauth2/](https://spring.io/guides/tutorials/spring-boot-oauth2/)
+
+---
+
 ## 次のステップ
 
-この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、**[基礎知識](basics.md)** に戻って概念を再確認することをお勧めします。
+この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、**[基礎知識](basics.md)** に戻って概念を再確認するか、上記のAWS Black Belt資料で最新のアーキテクチャパターンを学習することをお勧めします。
 
 ---
 
