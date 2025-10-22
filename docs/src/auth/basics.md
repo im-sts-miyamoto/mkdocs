@@ -288,6 +288,82 @@
     | **構成例** | フロント+バック統合<br/>(Next.js SSR, Rails, Django) | 静的HTML + API分離<br/>(React + REST API) |
     | **認証方式** | Cookie | Authorization Header |
 
+??? tip "なぜJWT（トークン）の無効化は困難なのか？"
+
+    **結論: JWTは署名検証のみで認証するため、発行後のトークンを取り消せません**
+
+    ### 仕組みの違い
+
+    | 項目 | セッション | JWT |
+    |------|----------|-----|
+    | **検証方法** | サーバーがストアを確認 | サーバーが署名を確認 |
+    | **無効化** | ストアから削除 | ❌ 削除する場所がない |
+    | **ステートレス** | ❌ (Stateful) | ✅ (Stateless) |
+
+    ### AWS Cognito の場合
+
+    **Cognitoの`GlobalSignOut`API:**
+
+    ```bash
+    aws cognito-idp admin-user-global-sign-out \
+      --user-pool-id us-east-1_XXXXXXXXX \
+      --username user@example.com
+    ```
+
+    **実際に無効化されるもの:**
+
+    - ✅ **リフレッシュトークン**: 即座に無効化（新しいアクセストークンを取得できなくなる）
+    - ❌ **アクセストークン**: 有効期限まで使える（既に発行済みのトークンは無効化できない）
+    - ❌ **IDトークン**: 有効期限まで使える（既に発行済みのトークンは無効化できない）
+
+    **つまり:**
+
+    ```mermaid
+    sequenceDiagram
+        participant User as ユーザー
+        participant API as APIサーバー
+        participant Cognito as Cognito
+
+        Note over User,Cognito: ログイン時
+        User->>Cognito: 認証
+        Cognito->>User: アクセストークン（有効期限: 1時間）<br/>リフレッシュトークン
+
+        Note over Cognito: 管理者がGlobalSignOut実行
+        Cognito->>Cognito: リフレッシュトークンを無効化
+
+        Note over User,API: GlobalSignOut後も
+        User->>API: Bearer: アクセストークン（既に発行済み）
+        API->>API: JWT署名検証 → ✅ 有効
+        API->>User: レスポンス（有効期限まで使える！）
+
+        Note over User,Cognito: アクセストークン期限切れ後
+        User->>Cognito: リフレッシュトークンで更新
+        Cognito->>User: ❌ エラー（リフレッシュトークンは無効化済み）
+    ```
+
+    ### 対策: トークン有効期限を短く設定
+
+    ```hcl
+    # Cognitoのトークン有効期限を短く設定
+    resource "aws_cognito_user_pool_client" "app" {
+      access_token_validity  = 5   # 5分
+      id_token_validity      = 5   # 5分
+      refresh_token_validity = 30  # 30日
+    }
+    ```
+
+    → **GlobalSignOut実行後、最大5分で完全に無効化**
+
+    ### まとめ
+
+    | 要件 | 推奨方法 |
+    |------|---------|
+    | **一般的なWebアプリ** | 短い有効期限（5〜15分）+ リフレッシュトークン |
+    | **即座の無効化が必須** | セッションベース認証 |
+    | **Cognito使用** | アクセストークン有効期限を5〜15分に設定 |
+
+    **JWTの無効化が困難な理由は、ステートレス設計という本質的な特性によるものです。リフレッシュトークンは無効化できますが、既に発行済みのアクセストークンは有効期限まで使えてしまいます。これを理解した上で、適切な有効期限設定で対応するのがベストプラクティスです。**
+
 ??? question "セキュリティ: どちらが安全？"
 
     **結論: 適切に実装すれば両方とも安全です**
