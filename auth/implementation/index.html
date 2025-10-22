@@ -586,6 +586,39 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
+      📚 参考資料
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 参考資料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS公式ドキュメント
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      その他の参考資料
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
       次のステップ
     </span>
   </a>
@@ -732,6 +765,39 @@
       
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      📚 参考資料
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 参考資料">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#aws" class="md-nav__link">
+    <span class="md-ellipsis">
+      AWS公式ドキュメント
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      その他の参考資料
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       次のステップ
     </span>
@@ -1273,8 +1339,59 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
 </span></code></pre></div>
 </details>
 <hr />
-<h2 id="_8">次のステップ<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、<strong><a href="../basics/">基礎知識</a></strong> に戻って概念を再確認することをお勧めします。</p>
+<h2 id="_8">📚 参考資料<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="aws">AWS公式ドキュメント<a class="headerlink" href="#aws" title="Permanent link">&para;</a></h3>
+<details class="info">
+<summary>AWS Black Belt オンラインセミナー - Amazon Cognito</summary>
+<p>AWSが提供する公式の技術資料です。Cognitoの基礎から応用まで網羅的に解説されています。</p>
+<p><strong>🎯 Amazon Cognito (2020年版)</strong></p>
+<ul>
+<li><strong>内容:</strong> Cognitoの基本概念、ユーザープール、IDプール、認証フローの詳細</li>
+<li><strong>対象:</strong> Cognito初学者〜中級者</li>
+<li><strong>資料:</strong> <a href="https://d1.awsstatic.com/webinars/jp/pdf/services/20200630_AWS_BlackBelt_Amazon%20Cognito.pdf">Amazon Cognito (PDF)</a></li>
+<li><strong>おすすめポイント:</strong><ul>
+<li>✅ ユーザープールとIDプールの違いが理解できる</li>
+<li>✅ OAuth 2.0 / OIDC のフロー図が豊富</li>
+<li>✅ セキュリティベストプラクティスが網羅されている</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p><strong>🆕 Amazon Cognito - 認証認可とCIAMの構築方法 (2025年版)</strong></p>
+<ul>
+<li><strong>内容:</strong> 最新のCognito機能、認証認可アーキテクチャ、CIAM (Customer Identity and Access Management) の実装パターン</li>
+<li><strong>対象:</strong> 中級者〜上級者、エンタープライズ向け</li>
+<li><strong>資料:</strong> <a href="https://pages.awscloud.com/rs/112-TZM-766/images/AWS-Black-Belt_2025_Amazon-Cognito-How-To-Build-AuthNZ-CIAM_0731_v1.pdf">Amazon Cognito - How To Build AuthNZ CIAM (PDF)</a></li>
+<li><strong>おすすめポイント:</strong><ul>
+<li>✅ <strong>2025年最新版</strong> - 最新機能とベストプラクティス</li>
+<li>✅ SAML / OIDC フェデレーションの詳細設計</li>
+<li>✅ マルチテナント対応、B2B / B2C / B2E パターン</li>
+<li>✅ Lambda トリガーを使った高度なカスタマイズ</li>
+<li>✅ セキュリティ強化（MFA、WAF連携、異常検知）</li>
+</ul>
+</li>
+</ul>
+<p><strong>📌 学習順序の推奨:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>1. 2020年版でCognitoの基礎を学ぶ
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>   ↓
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>2. このドキュメント（実装ガイド）で実装を試す
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>   ↓
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>3. 2025年版で最新のアーキテクチャパターンを学ぶ
+</span></code></pre></div>
+</details>
+<hr />
+<h3 id="_9">その他の参考資料<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<details class="tip">
+<summary>補足リソース</summary>
+<ul>
+<li><strong>AWS Cognito 公式ドキュメント:</strong> <a href="https://docs.aws.amazon.com/cognito/">https://docs.aws.amazon.com/cognito/</a></li>
+<li><strong>NextAuth.js 公式ドキュメント:</strong> <a href="https://next-auth.js.org/">https://next-auth.js.org/</a></li>
+<li><strong>Spring Security OAuth 2.0:</strong> <a href="https://spring.io/guides/tutorials/spring-boot-oauth2/">https://spring.io/guides/tutorials/spring-boot-oauth2/</a></li>
+</ul>
+</details>
+<hr />
+<h2 id="_10">次のステップ<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>この実装ガイドで、Next.js + Spring Boot + Cognito を使った認証機能の実装方法を学びました。さらに理解を深めるには、<strong><a href="../basics/">基礎知識</a></strong> に戻って概念を再確認するか、上記のAWS Black Belt資料で最新のアーキテクチャパターンを学習することをお勧めします。</p>
 <hr />
 <p><strong>最終更新:</strong> 2025年10月
 <strong>対象読者:</strong> 認証機能を実装する開発者(中級)</p>
@@ -1300,7 +1417,7 @@ Next.js、Spring Boot、AWS Cognitoを使った認証機能の実装方法を、
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年10月20日 17:34:33 UTC">2025-10-20</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年10月22日 00:33:44 UTC">2025-10-22</span>
   </span>
 
     
