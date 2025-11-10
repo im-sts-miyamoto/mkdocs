@@ -1,0 +1,54 @@
+/* コンテンツ領域を広げる */
+.md-grid {
+    max-width: 1440px;
+    /* デフォルトは61remまたは約976px */
+}
+
+/* さらに大きい画面では最大幅を拡張 */
+@media screen and (min-width: 76.25em) {
+    .md-main__inner {
+        max-width: none;
+    }
+
+    .md-sidebar--primary {
+        width: 15rem;
+        /* サイドバーを少し広げる */
+    }
+
+    .md-sidebar--secondary {
+        width: 15rem;
+        /* 右サイドバーも少し広げる */
+    }
+}
+
+/* 超大型ディスプレイ用 */
+@media screen and (min-width: 100em) {
+    .md-grid {
+        max-width: 1800px;
+    }
+}
+
+/* テーブルの見やすさを向上 */
+.md-typeset table:not([class]) {
+    font-size: 0.85em;
+}
+
+.md-typeset table:not([class]) td,
+.md-typeset table:not([class]) th {
+    padding: 0.6em 0.8em;
+}
+
+/* テーブルヘッダーに背景色を追加 */
+.md-typeset table:not([class]) thead th {
+    background-color: #1976d2;
+    /* Material Design Blue 700 */
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* ダークモード対応 */
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) thead th {
+    background-color: #1565c0;
+    /* 少し濃いBlue 800 */
+    color: #ffffff;
+}

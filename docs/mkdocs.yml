@@ -43,6 +43,9 @@ theme:
         icon: material/weather-night
         name: ライトモードに切り替え
 
+extra_css:
+  - stylesheets/extra.css
+
 copyright: Copyright 2025 infomart Inc.
 
 nav:
@@ -51,6 +54,7 @@ nav:
   - 認証・認可:
     - 基礎知識: auth/basics.md
     - 実装ガイド: auth/implementation.md
+    - アーキテクチャ検討: auth/architecture.md
 
 plugins:
   - git-revision-date-localized:
