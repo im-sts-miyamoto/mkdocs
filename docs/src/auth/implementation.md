@@ -20,8 +20,8 @@
         Cognito[🔐 AWS Cognito<br/>認証・トークン発行]
         Spring[☕ Spring Boot API<br/>ビジネスロジック]
 
-        Browser <-->|Cookie<br/>HttpOnly/Secure| Next
-        Next <-->|OAuth 2.0<br/>Code+PKCE| Cognito
+        Browser <-->|"Cookie<br/>HttpOnly/Secure"| Next
+        Next <-->|"OAuth 2.0<br/>Code+PKCE"| Cognito
         Next -->|Bearer Token| Spring
     ```
 

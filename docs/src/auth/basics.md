@@ -220,7 +220,7 @@
 
     ```mermaid
     graph LR
-        Browser[ブラウザ] -->|Bearer<br/>Token| Server[サーバー]
+        Browser[ブラウザ] -->|"Bearer<br/>Token"| Server[サーバー]
         Server -->|公開鍵取得| AuthServer[認可サーバー]
         Server -->|署名検証| Server
     ```
@@ -913,8 +913,8 @@
 
         ```mermaid
         graph LR
-            Browser[ブラウザ] -->|暗号化Cookie<br/>(JWE)| NextJS[Next.js]
-            NextJS -->|JWT復号化<br/>検証| NextJS
+            Browser[ブラウザ] -->|"暗号化Cookie<br/>(JWE)"| NextJS[Next.js]
+            NextJS -->|"JWT復号化<br/>検証"| NextJS
             NextJS -->|API呼び出し| Backend[バックエンドAPI]
         ```
 
@@ -999,8 +999,8 @@
             BFF[⚡ Next.js BFF]
             API[🔌 バックエンドAPI]
 
-            Browser -->|🍪 Cookie<br/>（暗号化JWT）| BFF
-            BFF -->|🔑 Bearer Token<br/>（アクセストークン）| API
+            Browser -->|"🍪 Cookie<br/>（暗号化JWT）"| BFF
+            BFF -->|"🔑 Bearer Token<br/>（アクセストークン）"| API
         ```
 
         **推奨パターン:**
