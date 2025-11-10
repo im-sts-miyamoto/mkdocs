@@ -1,0 +1,1767 @@
+
+<!doctype html>
+<html lang="ja" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://im-sts-miyamoto.github.io/mkdocs/auth/architecture/">
+      
+      
+        <link rel="prev" href="../implementation/">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.23">
+    
+    
+      
+        <title>アーキテクチャ検討 - 汎用ドキュメント置き場</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.84d31ad4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CInconsolata:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"Inconsolata"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          コンテンツにスキップ
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="ヘッダー">
+    <a href="../.." title="汎用ドキュメント置き場" class="md-header__button md-logo" aria-label="汎用ドキュメント置き場" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            汎用ドキュメント置き場
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              アーキテクチャ検討
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ダークモードに切り替え"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="ダークモードに切り替え" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="ライトモードに切り替え"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="ライトモードに切り替え" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="検索" placeholder="検索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="検索">
+        
+        <button type="reset" class="md-search__icon md-icon" title="クリア" aria-label="クリア" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            検索を初期化
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/im-sts-miyamoto/mkdocs" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    im-sts-miyamoto/mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="タブ" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  ホーム
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../web-basics/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Webアプリケーション基礎
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../basics/" class="md-tabs__link">
+          
+  
+  
+  認証・認可
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="ナビゲーション" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="汎用ドキュメント置き場" class="md-nav__button md-logo" aria-label="汎用ドキュメント置き場" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    汎用ドキュメント置き場
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/im-sts-miyamoto/mkdocs" title="リポジトリへ" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    im-sts-miyamoto/mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ホーム
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../web-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Webアプリケーション基礎
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    認証・認可
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            認証・認可
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    基礎知識
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    実装ガイド
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    アーキテクチャ検討
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    アーキテクチャ検討
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      システム構成
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      認証基盤
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      権限管理の要件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤔 検討ポイントと選択肢
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤔 検討ポイントと選択肢">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 主要な設計決定のまとめ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目次">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目次
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      システム構成
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      認証基盤
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      権限管理の要件
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      🤔 検討ポイントと選択肢
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🤔 検討ポイントと選択肢">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      選択肢の概要
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      比較表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 主要な設計決定のまとめ
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">アーキテクチャ検討<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<details class="info">
+<summary>📌 前提条件</summary>
+<h3 id="_2">システム構成<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>フロントエンド</strong>: Next.js (BFF パターン)</li>
+<li><strong>バックエンド</strong>: Spring Boot (API サーバ)</li>
+<li><strong>サービス数</strong>: 初期3サービス（今後も増加見込み）</li>
+<li><strong>SSO要件</strong>: 1回のログインで全サービスにアクセス可能</li>
+</ul>
+<h3 id="_3">認証基盤<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>社内IdP</strong>: HENNGE One（社内既存認証基盤）</li>
+<li><strong>アプリ側トークン発行</strong>: Amazon Cognito User Pool（HENNGE One を外部 IdP としてフェデレーション）</li>
+<li><strong>連携方式</strong>: OIDC （または SAML）</li>
+</ul>
+<h3 id="_4">権限管理の要件<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>グループベースの基本権限（Cognito User Pool の <code>groups</code> 属性で管理）</li>
+<li>複雑な権限要件にも対応可能な設計（将来拡張性）</li>
+<li>権限変更の即時反映が必要</li>
+<li>監査ログの記録が必須</li>
+</ul>
+</details>
+<hr />
+<h2 id="_5">🤔 検討ポイントと選択肢<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>前提条件のもとで、以下の項目について最適な選択肢を検討します。</p>
+<details class="note">
+<summary>検討1: 認可方式と権限データの持ち方</summary>
+<p><strong>課題</strong>: 誰がどのリソースにアクセスできるかの権限チェックの仕組みをどのような構成で実現するか</p>
+<h3 id="_6">選択肢の概要<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><strong>① JWT埋め込み方式</strong></p>
+<ul>
+<li>JWT に個別の詳細権限（リソースごとのアクセス権など）を埋め込む</li>
+<li>Cognito Pre Token Generation Lambda で DB から権限を取得してトークンに追加</li>
+<li>権限判定はトークンの検証のみで完結</li>
+</ul>
+<p><strong>② OIDC Groups方式</strong></p>
+<ul>
+<li>Cognito の <code>groups</code> 属性のみで権限管理</li>
+<li>シンプルなグループベースのアクセス制御（例: admin, user, guest）</li>
+<li>複雑な権限要件には対応困難</li>
+</ul>
+<p><strong>③ AVP実行時チェック方式</strong></p>
+<ul>
+<li>JWT には最小限の情報（<code>userId</code> + <code>groups</code>）のみ</li>
+<li>Amazon Verified Permissions (AVP) が実行時に Cedar ポリシーで権限を評価</li>
+<li>Redis キャッシュ + イベント駆動の即時無効化で高速化</li>
+</ul>
+<h3 id="_7">比較表<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>① JWT埋め込み</th>
+<th>② OIDC Groups</th>
+<th>③ AVP実行時チェック</th>
+<th>最適</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JWT サイズ</strong></td>
+<td>❌ 大きくなりやすい<br>（8KB超過リスク）</td>
+<td>✅ 小さい<br>（~1KB）</td>
+<td>✅ 小さい<br>（~1KB）</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>権限の柔軟性</strong></td>
+<td>🟡 埋め込み内容次第</td>
+<td>❌ グループのみ<br>複雑な要件に非対応</td>
+<td>✅ Cedar ポリシーで<br>複雑な要件に対応</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>即時反映</strong></td>
+<td>❌ JWT再発行まで<br>反映されない</td>
+<td>❌ JWT再発行まで<br>反映されない</td>
+<td>✅ ポリシー更新で<br>即座に反映</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>監査ログ</strong></td>
+<td>🟡 トークン検証ログのみ</td>
+<td>🟡 トークン検証ログのみ</td>
+<td>✅ CloudWatch Logs に<br>判定詳細を記録</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>パフォーマンス</strong></td>
+<td>✅ トークン検証のみ</td>
+<td>✅ トークン検証のみ</td>
+<td>🟢 Redis キャッシュで<br>高速化</td>
+<td>①②③</td>
+</tr>
+<tr>
+<td><strong>実装コスト</strong></td>
+<td>🟡 Lambda実装が必要</td>
+<td>✅ 最小限</td>
+<td>🟡 AVP設定が必要</td>
+<td>②</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨する選択肢</strong>: ✅ <strong>③ AVP実行時チェック方式</strong></p>
+<p><strong>選択理由</strong>:</p>
+<ul>
+<li>✅ <strong>JWT サイズ最小化</strong>: <code>userId</code> + <code>groups</code> のみで~1KB、トークンサイズ問題を回避</li>
+<li>✅ <strong>柔軟性</strong>: Cedar ポリシーで複雑な権限要件（部署別、プロジェクト別など）に対応可能</li>
+<li>✅ <strong>即時反映</strong>: ポリシー更新で即座に権限変更が反映される（JWT 再発行不要）</li>
+<li>✅ <strong>監査</strong>: CloudWatch Logs に認可判定の詳細ログを自動記録</li>
+<li>✅ <strong>パフォーマンス</strong>: Redis キャッシュでミリ秒レベルの高速判定</li>
+</ul>
+<p><strong>① を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>JWT サイズ超過リスク</strong>: 詳細権限を埋め込むと8KB制限を超える可能性</li>
+<li>❌ <strong>即時反映不可</strong>: 権限変更がJWT再発行まで反映されない（セキュリティリスク）</li>
+<li>❌ <strong>Lambda パフォーマンス</strong>: DB取得処理でトークン発行が遅延する可能性</li>
+</ul>
+<p><strong>② を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>柔軟性不足</strong>: グループベースのみで、複雑な権限要件（リソース単位の制御など）に非対応</li>
+<li>❌ <strong>即時反映不可</strong>: グループ変更がJWT再発行まで反映されない</li>
+<li>❌ <strong>監査ログ限定的</strong>: 詳細な認可判定の記録が困難</li>
+</ul>
+<details class="example">
+<summary>③ 推奨方式の実装詳細</summary>
+<p><strong>JWT の内容</strong>:</p>
+<ul>
+<li><code>userId</code>, <code>email</code>, <code>groups</code>（Cognito標準クレーム）</li>
+<li>トークンサイズ: ~1KB</li>
+</ul>
+<p><strong>権限判定フロー</strong>:</p>
+<ol>
+<li>BFF (Next.js) が AVP に権限チェックをリクエスト</li>
+<li>AVP が Cedar ポリシーを評価（キャッシュヒット時はRedisから取得）</li>
+<li>許可/拒否を返却、CloudWatch Logs に詳細を記録</li>
+</ol>
+<p><strong>キャッシュ戦略</strong>:</p>
+<p><strong>主戦略: イベント駆動無効化</strong></p>
+<ul>
+<li>ポリシー更新時: EventBridge → Lambda → Redis キャッシュ削除</li>
+<li>グループ変更時: Cognito Post Confirmation → Lambda → Redis キャッシュ削除</li>
+<li>即座に反映（数秒以内）</li>
+</ul>
+<p><strong>副戦略: TTL フォールバック</strong></p>
+<ul>
+<li>キャッシュ TTL: 5分</li>
+<li>イベント欠損時の安全ネット</li>
+<li>最悪でも5分以内に新しい権限が反映</li>
+</ul>
+<p><strong>キャッシュキー設計</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>avp:{userId}:{action}:{resource}
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>例: avp:user123:viewCustomer:customer456
+</span></code></pre></div>
+<details class="example">
+<summary>コスト試算（具体例）</summary>
+<p><strong>前提: 1,000 DAU、各ユーザー1日30リクエスト、キャッシュヒット率80%</strong></p>
+<p><strong>キャッシュなし（毎回 AVP 呼び出し）</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>AVP コール数/月 = 1,000 × 30 × 30 = 900,000 コール
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>AVP コスト = 900,000 / 1,000 × $0.15 = $135/月
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Redis コスト = $0/月
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>合計 = $135/月
+</span></code></pre></div>
+<p><strong>Redis キャッシュあり（キャッシュヒット率80%）</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>AVP コール数/月 = 900,000 × 20% = 180,000 コール
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>AVP コスト = 180,000 / 1,000 × $0.15 = $27/月
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Redis コスト (cache.t4g.micro) = $12/月
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>合計 = $39/月
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>→ $96/月の削減（71% コストダウン）
+</span></code></pre></div>
+<div class="admonition success">
+<p class="admonition-title">結論: キャッシュ戦略はコスト削減に大きく貢献</p>
+<ul>
+<li>AVP API の従量課金コストを80%削減</li>
+<li>Redis の固定費を考慮しても、トータルで70%以上のコスト削減</li>
+<li>ユーザー数・リクエスト数が増えるほど削減効果は大きくなる</li>
+</ul>
+</div>
+</details>
+<p><strong>Cognito グループ管理</strong>:</p>
+<ul>
+<li>初回登録: 初期グループ（例: <code>guest</code>）を自動付与</li>
+<li>権限付与: 管理者が Cognito コンソール/API で設定</li>
+<li>JWT 反映: Cognito が自動的に <code>cognito:groups</code> クレームに含める</li>
+</ul>
+</details>
+<div class="admonition note">
+<p class="admonition-title">Pre Token Generation Lambda について</p>
+<p>Cognito で JWT の内容を追加・変換する場合は <strong>Pre Token Generation Lambda トリガー</strong> を実装できます。本構成ではトークンサイズを最小限に保つため基本的な <code>userId</code> と <code>groups</code> の付与にとどめ、グループ名の変換やカスタムクレーム付与が必要な場合のみ Lambda を導入します。Lambda を挟む際はコールドスタートや外部アクセスによる遅延を避けるため、処理内容は軽量に保ち、外部 DB 参照などは行わない方針とします。</p>
+</div>
+</details>
+<details class="note">
+<summary>検討2: ブラウザとBFF間の認証情報の受け渡し方式</summary>
+<p><strong>課題</strong>: ブラウザとNext.js BFF間で認証状態をどう管理し、トークンをどう保持するか？</p>
+<div class="admonition info">
+<p class="admonition-title">BFF 構成における前提</p>
+<p>本構成では <strong>BFF (Backend for Frontend) パターン</strong> を採用しているため、ブラウザ⇔BFF間の認証情報の受け渡しは <strong>Cookie</strong> を使用します。</p>
+<p><strong>Cookie を採用する理由</strong>:</p>
+<ul>
+<li>✅ ブラウザとBFFは同一オリジン（同じドメイン）なのでCookieが自然</li>
+<li>✅ HttpOnly 属性によりJavaScriptからアクセス不可（XSS対策）</li>
+<li>✅ Next.js の SSR/SSG 機能との親和性が高い</li>
+<li>✅ NextAuth.js のエコシステムを最大限活用できる</li>
+</ul>
+<p><strong>Authorizationヘッダーを採用しない理由</strong>:</p>
+<ul>
+<li>❌ トークンをlocalStorage等に保存する必要があり、XSS脆弱性のリスク</li>
+<li>❌ SSR時にトークンを取得できない</li>
+<li>ℹ️ 注: Authorization ヘッダーは、モバイルアプリ⇔API や BFF⇔バックエンドAPI 間では有効</li>
+</ul>
+</div>
+<p>Cookieを前提とした場合、次の議論は <strong>Cookieに何を格納するか</strong> です。</p>
+<h3 id="_8">選択肢の概要<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><strong>① ステートレスJWT方式</strong></p>
+<ul>
+<li>Cookie に Cognito の JWT（Access Token、Refresh Token）をそのまま平文で格納</li>
+<li>サーバー側のストレージ不要で完全ステートレス</li>
+<li>NextAuth.js を使わない独自実装が必要</li>
+</ul>
+<p><strong>② 暗号化JWT方式（NextAuth.js JWT戦略）</strong></p>
+<ul>
+<li>Cookie に暗号化した JWT を格納（NextAuth.js <code>strategy: "jwt"</code> で自動対応）</li>
+<li>サーバー側のストレージ不要でステートレス</li>
+<li>NextAuth.js が暗号化・復号化を自動処理</li>
+</ul>
+<p><strong>③ セッションストア方式（NextAuth.js Database戦略）</strong></p>
+<ul>
+<li>Cookie にはセッションIDのみを格納（数十バイト）</li>
+<li>Cognito トークンはサーバー側のセッションストア（DynamoDB/Redis）に保存</li>
+<li>NextAuth.js のデフォルト方式</li>
+</ul>
+<h3 id="_9">比較表<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>① ステートレスJWT</th>
+<th>② 暗号化JWT</th>
+<th>③ セッションストア</th>
+<th>最適</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>実装の容易さ</strong></td>
+<td>❌ 完全自前実装</td>
+<td>🟢 NextAuth.js が<br>自動対応</td>
+<td>🟡 DynamoDB/Redisの<br>準備が必要</td>
+<td>②</td>
+</tr>
+<tr>
+<td><strong>Cookie サイズ</strong></td>
+<td>❌ 3〜5KB<br>（4KB制限超過リスク）</td>
+<td>❌ 3〜5KB<br>（暗号化でさらに増）</td>
+<td>✅ 数十バイト</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>セキュリティ（XSS）</strong></td>
+<td>❌ 平文トークンが<br>Cookie内に存在</td>
+<td>🟡 暗号化されているが<br>Cookie内に存在</td>
+<td>✅ トークンがブラウザに<br>一切露出しない</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>即時無効化</strong></td>
+<td>❌ 不可</td>
+<td>❌ 不可</td>
+<td>✅ サーバー側で即座に可能</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>Cognitoトークン更新</strong></td>
+<td>❌ 完全自前実装</td>
+<td>🟡 <code>jwt</code>コールバックで<br>ロジック実装が必要</td>
+<td>✅ デフォルトで自動処理</td>
+<td>③</td>
+</tr>
+<tr>
+<td><strong>CSRF対策</strong></td>
+<td>❌ 自前実装が必要</td>
+<td>✅ NextAuth.js が自動実装</td>
+<td>✅ NextAuth.js が自動実装</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>ステートレス性</strong></td>
+<td>✅ 完全ステートレス</td>
+<td>✅ 完全ステートレス</td>
+<td>❌ セッションストア必要</td>
+<td>①②</td>
+</tr>
+<tr>
+<td><strong>運用コスト</strong></td>
+<td>✅ ストレージ不要</td>
+<td>✅ ストレージ不要</td>
+<td>🟡 セッションストアの<br>管理が必要</td>
+<td>①②</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨する選択肢</strong>: ✅ <strong>③ セッションストア方式</strong></p>
+<p><strong>選択理由</strong>:</p>
+<ul>
+<li>✅ <strong>セキュリティ最優先</strong>: Cognitoトークンがブラウザに一切露出せず、XSS攻撃のリスクを最小化</li>
+<li>✅ <strong>即時無効化</strong>: ログアウトや権限変更時にサーバー側で即座にセッションを無効化可能</li>
+<li>✅ <strong>Cookie サイズ</strong>: 4KB制限を気にする必要が一切ない</li>
+<li>✅ <strong>実装の簡潔さ</strong>: NextAuth.js のデフォルト動作でトークン更新・CSRF対策が自動処理</li>
+<li>🟡 セッションストアの準備が必要だが、DynamoDB（サーバーレス）で運用負荷を最小化</li>
+</ul>
+<p><strong>① を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>Cookie サイズ超過</strong>: Cognito JWT（2〜3KB）+ Refresh Token で4KB制限を超える可能性が高い</li>
+<li>❌ <strong>セキュリティリスク</strong>: 平文トークンがCookieに格納される</li>
+<li>❌ <strong>即時無効化不可</strong>: ログアウト後もトークン有効期限まで使用可能</li>
+<li>❌ <strong>実装コスト</strong>: トークン更新・CSRF対策などを完全自前実装</li>
+</ul>
+<p><strong>② を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>Cookie サイズ超過</strong>: 暗号化オーバーヘッドで①よりさらに大きくなり、4KB制限超過の可能性が極めて高い</li>
+<li>❌ <strong>即時無効化不可</strong>: ログアウト後もトークン有効期限まで使用可能（セキュリティリスク）</li>
+<li>🟡 <strong>トークン更新実装</strong>: <code>jwt</code> コールバックで Cognito Refresh Token のロジックを実装する必要がある</li>
+<li>ℹ️ 完全ステートレスが絶対条件の場合は選択肢になるが、本構成では③が適切</li>
+</ul>
+<details class="example">
+<summary>③ 推奨方式の実装詳細</summary>
+<p><strong>Cookie の内容</strong>:</p>
+<ul>
+<li>セッションIDのみ（数十バイト、例: <code>session_abc123xyz...</code>）</li>
+<li><code>HttpOnly</code>, <code>Secure</code>, <code>SameSite=Lax</code> 属性を設定</li>
+</ul>
+<p><strong>セッションストアの内容</strong>:</p>
+<ul>
+<li>Cognito ID Token, Access Token, Refresh Token</li>
+<li>ユーザー情報（userId, email, groups）</li>
+<li>セッション有効期限</li>
+</ul>
+<p><strong>自動処理される機能</strong>:</p>
+<ul>
+<li>Refresh Token による Access Token の自動更新</li>
+<li>CSRF トークンの生成・検証</li>
+<li>セッションの有効期限管理</li>
+</ul>
+<p><strong>インフラ構成</strong>:</p>
+<ul>
+<li>初期: DynamoDB（サーバーレス、低コスト）</li>
+<li>スケール時: Redis（ElastiCache）追加でパフォーマンス最適化</li>
+</ul>
+</details>
+<details class="warning">
+<summary>セキュリティ上の考慮事項</summary>
+<p><strong>JWT の取り扱い</strong></p>
+<ul>
+<li>✅ JWT には <code>userId</code> + <code>groups</code> のみ格納（詳細権限は含めない）</li>
+<li>✅ トークン盗難時の被害を最小化</li>
+<li>✅ 権限変更時に JWT 再発行不要（AVP ポリシー更新のみ）</li>
+</ul>
+<p><strong>Cookie セキュリティ属性</strong></p>
+<ul>
+<li>✅ <code>HttpOnly</code>: JavaScript からアクセス不可（XSS 対策）</li>
+<li>✅ <code>Secure</code>: HTTPS 通信でのみ送信</li>
+<li>✅ <code>SameSite=Lax</code>: CSRF 攻撃を防止</li>
+</ul>
+<p><strong>トークン有効期限</strong></p>
+<ul>
+<li>ID Token: 1時間（Cognito デフォルト）</li>
+<li>Access Token: 1時間（Cognito デフォルト）</li>
+<li>Refresh Token: 30日（NextAuth.js が自動更新）</li>
+<li>セッション: NextAuth.js が Refresh Token を使用して自動延長</li>
+</ul>
+<p><strong>セッション無効化</strong></p>
+<ul>
+<li>ログアウト時: サーバー側でセッションを即座に削除</li>
+<li>権限変更時: 必要に応じてセッションを無効化可能</li>
+<li>不正アクセス検知時: 管理者が特定ユーザーのセッションを強制終了可能</li>
+</ul>
+</details>
+</details>
+<details class="note">
+<summary>検討3: 認証・認可チェックの実施箇所</summary>
+<p><strong>課題</strong>: ブラウザ → BFF → API の通信経路において、どのタイミングで認証・認可チェックを実施するか？</p>
+<h3 id="_10">選択肢の概要<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p><strong>① BFF集中チェック方式（APIは無検証）</strong></p>
+<ul>
+<li>ブラウザ→BFF: Cookie（セッションID）で認証 + AVP で認可チェック</li>
+<li>BFF→API: 認証・認可チェックなしでリクエストを転送（内部通信として信頼）</li>
+<li>すべてのセキュリティチェックを BFF に集中</li>
+</ul>
+<p><strong>② 多層防御方式（BFF・API両方でチェック）</strong></p>
+<ul>
+<li>ブラウザ→BFF: Cookie（セッションID）で認証 + AVP で認可チェック</li>
+<li>BFF→API: JWT（Access Token）をヘッダーに付与し、API側でJWT検証を実施</li>
+<li>各層で独立した検証を実施</li>
+</ul>
+<p><strong>③ API Gateway 集中制御方式</strong></p>
+<ul>
+<li>ブラウザ→BFF: Cookie（セッションID）で認証 + AVP で認可チェック</li>
+<li>BFF→API Gateway→API: API Gateway の Lambda Authorizer で JWT検証・認可チェック</li>
+<li>Gateway で集中的にセキュリティ制御</li>
+</ul>
+<h3 id="_11">比較表<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>① BFF 集中</th>
+<th>② 多層防御</th>
+<th>③ Gateway 集中</th>
+<th>最適</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>早期リジェクション</strong></td>
+<td>✅ BFF で拒否</td>
+<td>✅ BFF で拒否</td>
+<td>🟡 Gateway で拒否<br>（BFF経由後）</td>
+<td>①②</td>
+</tr>
+<tr>
+<td><strong>多層防御</strong></td>
+<td>❌ API が無防備<br>（BFF信頼前提）</td>
+<td>✅ BFF・API で<br>二重チェック</td>
+<td>✅ Gateway・API で<br>二重チェック可能</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>実装の容易さ</strong></td>
+<td>✅ BFF のみ実装</td>
+<td>🟡 BFF・API 両方に実装</td>
+<td>❌ Gateway + Lambda<br>追加実装が必要</td>
+<td>①</td>
+</tr>
+<tr>
+<td><strong>API 単体利用</strong></td>
+<td>❌ 不可<br>（BFF 必須）</td>
+<td>✅ 可能<br>（モバイルアプリ等）</td>
+<td>✅ 可能<br>（Gateway 経由）</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>ページレベル制御</strong></td>
+<td>✅ BFF で SSR 制御</td>
+<td>✅ BFF で SSR 制御</td>
+<td>✅ BFF で SSR 制御</td>
+<td>①②③</td>
+</tr>
+<tr>
+<td><strong>運用コスト</strong></td>
+<td>✅ 最小限</td>
+<td>🟡 やや増加</td>
+<td>❌ Gateway 管理が<br>追加で必要</td>
+<td>①</td>
+</tr>
+<tr>
+<td><strong>責務の明確さ</strong></td>
+<td>🟡 BFF に集中</td>
+<td>✅ 明確に分離</td>
+<td>🟡 Gateway が集中</td>
+<td>②</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨する選択肢</strong>: ✅ <strong>② 多層防御方式（BFF・API 両方でチェック）</strong></p>
+<p><strong>選択理由</strong>:</p>
+<ul>
+<li>✅ <strong>早期リジェクション</strong>: BFF で認証・認可チェック、不正リクエストは API に到達させない</li>
+<li>✅ <strong>多層防御</strong>: API 側でも JWT 検証を実施し、BFF をバイパスした攻撃に対応</li>
+<li>✅ <strong>柔軟性</strong>: 将来的なモバイルアプリなど、BFF を経由しない API 直接アクセスに対応可能</li>
+<li>✅ <strong>責務の明確化</strong>: BFF（認証・認可・UI制御）と API（JWT検証・ビジネスロジック）の役割が明確</li>
+<li>✅ <strong>実装のシンプルさ</strong>: API Gateway 不要、BFF から直接 AVP SDK を呼び出し</li>
+</ul>
+<p><strong>① を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>セキュリティリスク</strong>: BFF が侵害された場合や設定ミスがあった場合、API が無防備になる</li>
+<li>❌ <strong>API 単体利用不可</strong>: 将来的なモバイルアプリなどの要件に対応困難</li>
+<li>❌ <strong>ゼロトラストに非対応</strong>: BFF と API 間の内部通信を無条件に信頼する前提が必要</li>
+</ul>
+<p><strong>③ を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>BFF 構成で不要</strong>: BFF 自体がゲートウェイの役割を果たしているため冗長</li>
+<li>❌ <strong>実装・運用コスト</strong>: Lambda Authorizer の実装・運用が追加で必要</li>
+<li>❌ <strong>アーキテクチャの複雑化</strong>: BFF と Gateway で役割が重複</li>
+<li>ℹ️ BFF を使わない構成（SPA + API）の場合は有効な選択肢</li>
+</ul>
+<details class="example">
+<summary>② 推奨方式の実装詳細</summary>
+<p><strong>ブラウザ → BFF 間のチェック</strong>:</p>
+<ul>
+<li><strong>認証</strong>: Cookie（セッションID）の有効性チェック</li>
+<li><strong>セッション検証</strong>: DynamoDB/Redis からセッション情報を取得</li>
+<li><strong>認可</strong>: AVP を呼び出して権限チェック（Redis キャッシュ活用）</li>
+<li><strong>SSR 制御</strong>: 権限に応じたページ生成・リダイレクト</li>
+</ul>
+<p><strong>BFF → API 間のチェック</strong>:</p>
+<ul>
+<li><strong>トークン付与</strong>: BFF がセッションストアから Cognito Access Token を取得し、Authorization ヘッダーに設定</li>
+<li><strong>JWT 検証</strong>: API（Spring Boot）が JWT 署名・有効期限・Issuer を検証</li>
+<li><strong>基本的な認可</strong>: JWT の <code>groups</code> クレームで簡易チェック（詳細な認可は BFF で完了済み）</li>
+</ul>
+<p><strong>責務分担</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>層</th>
+<th>認証</th>
+<th>認可</th>
+<th>その他の役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>BFF (Next.js)</strong></td>
+<td>✅ セッション検証</td>
+<td>✅ AVP で詳細チェック</td>
+<td>UI制御、SSR、早期リジェクション、ページレベル制御</td>
+</tr>
+<tr>
+<td><strong>API (Spring Boot)</strong></td>
+<td>✅ JWT 検証</td>
+<td>🟡 Groups で簡易チェック</td>
+<td>ビジネスロジック、データアクセス、多層防御</td>
+</tr>
+</tbody>
+</table>
+<p><strong>責務分担のポイント</strong>:</p>
+<ul>
+<li><strong>BFF</strong>: 全ての認証・認可チェックを実施（ページアクセス時）</li>
+<li>Cookie（セッションID）の検証</li>
+<li>AVP による詳細な権限チェック</li>
+<li>不正リクエストは API に到達させない</li>
+<li>
+<p>権限に応じた UI の出し分け</p>
+</li>
+<li>
+<p><strong>API</strong>: JWT 検証 + Groups 簡易チェック（多層防御として）</p>
+</li>
+<li>JWT の署名・有効期限・Issuer 検証</li>
+<li><code>groups</code> クレームによる基本的な権限確認</li>
+<li>詳細な認可ロジックは BFF に委譲</li>
+<li>ビジネスロジックに専念</li>
+</ul>
+<p><strong>実装例</strong>:</p>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1">// BFF (Next.js Server Component)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getProtectedData</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">session</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getServerSession</span><span class="p">();</span><span class="w"> </span><span class="c1">// セッション検証</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">  </span><span class="c1">// 認可チェック</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">avp</span><span class="p">.</span><span class="nx">isAuthorized</span><span class="p">({</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">session.user.id</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="nx">action</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;orders&quot;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">allowed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="nx">redirect</span><span class="p">(</span><span class="s1">&#39;/unauthorized&#39;</span><span class="p">);</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">  </span><span class="c1">// API 呼び出し（Access Token 付与）</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;https://api.example.com/orders&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">      </span><span class="s1">&#39;Authorization&#39;</span><span class="o">:</span><span class="w"> </span><span class="sb">`Bearer </span><span class="si">${</span><span class="nx">session</span><span class="p">.</span><span class="nx">accessToken</span><span class="si">}</span><span class="sb">`</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">  </span><span class="p">});</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">response</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="p">}</span>
+</span></code></pre></div>
+<div class="language-java highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">// API (Spring Boot)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nd">@RestController</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nd">@RequestMapping</span><span class="p">(</span><span class="s">&quot;/orders&quot;</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderController</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">  </span><span class="nd">@GetMapping</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">  </span><span class="nd">@PreAuthorize</span><span class="p">(</span><span class="s">&quot;hasAuthority(&#39;SCOPE_api/read&#39;)&quot;</span><span class="p">)</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Order</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getOrders</span><span class="p">(</span><span class="nd">@AuthenticationPrincipal</span><span class="w"> </span><span class="n">Jwt</span><span class="w"> </span><span class="n">jwt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="c1">// JWT は既に検証済み</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jwt</span><span class="p">.</span><span class="na">getSubject</span><span class="p">();</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="c1">// ビジネスロジック</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">orderService</span><span class="p">.</span><span class="na">findByUserId</span><span class="p">(</span><span class="n">userId</span><span class="p">);</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">}</span>
+</span></code></pre></div>
+</details>
+<div class="admonition note">
+<p class="admonition-title">モバイルアプリなど BFF 非経由アクセスへの対応</p>
+<p>モバイルアプリなど BFF を経由しない直接 API アクセスがある場合は、該当する API エンドポイントで AVP による詳細な認可チェックも実装します（多層防御）。この場合、API 側でも BFF と同様の認可ロジックを持つことになります。</p>
+</div>
+</details>
+<details class="note">
+<summary>検討4: SSO 実装方針</summary>
+<p><strong>課題</strong>: 複数サービス間でのシームレスなログイン体験をどう実現するか？</p>
+<h3 id="_12">選択肢の概要<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p><strong>① Cookie共有方式</strong></p>
+<ul>
+<li>親ドメインに共有 Cookie を設定（例: <code>.example.com</code>）</li>
+<li>全サブドメインでセッション共有、サービス間移動時のリダイレクトなし</li>
+<li>サブドメイン構成が前提条件</li>
+</ul>
+<p><strong>② サイレント認証方式（<code>prompt=none</code>）</strong></p>
+<ul>
+<li>IdP（HENNGE One）のセッションを活用したリダイレクトベース SSO</li>
+<li>各サービスでホスト限定 Cookie、サービス間移動時はサイレント認証経由</li>
+<li>ドメイン構成に依存しない</li>
+</ul>
+<p><strong>③ カスタムトークンゲートウェイ方式</strong></p>
+<ul>
+<li>専用の認証ゲートウェイでトークンを一元管理</li>
+<li>サービス間でトークンを引き回し、各サービスで検証</li>
+<li>完全な中央集権型アーキテクチャ</li>
+</ul>
+<h3 id="_13">比較表<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>比較項目</th>
+<th>① Cookie共有</th>
+<th>② サイレント認証</th>
+<th>③ トークンGW</th>
+<th>最適</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IdP セッション活用</strong></td>
+<td>🟡 初回のみ</td>
+<td>✅ 毎回活用</td>
+<td>🟡 初回のみ</td>
+<td>②</td>
+</tr>
+<tr>
+<td><strong>ドメイン制約</strong></td>
+<td>❌ サブドメイン必須<br>（<code>.example.com</code>）</td>
+<td>✅ 制約なし</td>
+<td>✅ 制約なし</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>実装の容易さ</strong></td>
+<td>🟡 Cookie設定の調整</td>
+<td>✅ NextAuth.js標準<br>（<code>prompt=none</code>追加のみ）</td>
+<td>❌ GW実装が必要</td>
+<td>②</td>
+</tr>
+<tr>
+<td><strong>サービス間遷移</strong></td>
+<td>✅ 即座（0秒）</td>
+<td>🟡 サイレント認証経由<br>（0.5〜1秒）</td>
+<td>🟡 トークン引き回し<br>（0.5〜1秒）</td>
+<td>①</td>
+</tr>
+<tr>
+<td><strong>セキュリティ</strong></td>
+<td>🟡 Cookie範囲が広い</td>
+<td>✅ ホスト限定Cookie</td>
+<td>✅ トークン分離</td>
+<td>②③</td>
+</tr>
+<tr>
+<td><strong>スケーラビリティ</strong></td>
+<td>🟡 サブドメイン制約</td>
+<td>✅ サービス追加容易</td>
+<td>🟡 GW が SPOF</td>
+<td>②</td>
+</tr>
+<tr>
+<td><strong>運用コスト</strong></td>
+<td>✅ 最小限</td>
+<td>✅ 最小限</td>
+<td>❌ GW運用が必要</td>
+<td>①②</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推奨する選択肢</strong>: ✅ <strong>② サイレント認証方式（<code>prompt=none</code>）</strong></p>
+<p><strong>選択理由</strong>:</p>
+<ul>
+<li>✅ <strong>IdP セッション活用</strong>: HENNGE One のログイン状態を毎回再利用、IdP 側でのログアウトが即座に全サービスに反映</li>
+<li>✅ <strong>ドメイン制約なし</strong>: サブドメイン構成に依存せず、将来的なドメイン変更にも柔軟に対応</li>
+<li>✅ <strong>実装の軽さ</strong>: NextAuth.js 標準フローに <code>prompt=none</code> パラメータを追加するのみ</li>
+<li>✅ <strong>セキュリティ</strong>: 各サービスがホスト限定 Cookie で独立、Cookie 漏洩時の影響範囲を最小化</li>
+<li>✅ <strong>スケーラビリティ</strong>: 新規サービス追加時も同じフローを適用、追加実装不要</li>
+<li>🟡 サービス間遷移に 0.5〜1秒のリダイレクトが発生するが、UX上の問題は限定的</li>
+</ul>
+<p><strong>① を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>ドメイン制約</strong>: サブドメイン構成（<code>service-a.example.com</code>, <code>service-b.example.com</code>）が必須</li>
+<li>❌ <strong>Cookie範囲</strong>: 親ドメイン全体に Cookie が送信され、セキュリティリスクが高まる</li>
+<li>❌ <strong>IdP ログアウト反映</strong>: HENNGE One でログアウトしても、ブラウザ上の共有 Cookie が残る可能性</li>
+<li>ℹ️ サブドメイン構成が確定しており、即座の遷移が必須要件の場合は選択肢になる</li>
+</ul>
+<p><strong>③ を採用しない理由</strong>:</p>
+<ul>
+<li>❌ <strong>実装・運用コスト</strong>: 専用のトークンゲートウェイの実装・運用が必要</li>
+<li>❌ <strong>SPOF（単一障害点）</strong>: ゲートウェイがダウンすると全サービスが影響を受ける</li>
+<li>❌ <strong>アーキテクチャの複雑化</strong>: BFF + GW で責務が重複、メンテナンス性が低下</li>
+<li>ℹ️ 既存の認証ゲートウェイがある環境では選択肢になる</li>
+</ul>
+<details class="example">
+<summary>② 推奨方式の実装詳細</summary>
+<p><strong>認証フロー</strong>:</p>
+<ul>
+<li>Cognito → HENNGE One へのサイレントリダイレクト</li>
+<li>各サービスでホスト限定 Cookie（<code>service-a.example.com</code>, <code>service-b.example.com</code> など）</li>
+<li>SSO は IdP セッションに依存</li>
+</ul>
+<p><strong>ユーザー体験</strong>:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>【初回訪問】
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>1. サービスA にアクセス → Cognito Hosted UI（HENNGE One へリダイレクト）
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>2. ユーザーが HENNGE One でログイン（メールアドレス + パスワード）
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>3. Cognito がトークンを発行しサービスA のページ表示
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>【2回目以降（同一サービス）】
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>4. サービスA にアクセス
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>5. → Cognito に `prompt=none` でリダイレクト → 背後で HENNGE One セッションを再利用（0.5〜1秒）
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>6. → ページ表示
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>【サービス間移動】
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>7. サービスA で作業中
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>8. サービスB へのリンクをクリック
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>9. → サイレント認証経由で Cognito/HENNGE One を往復しサービスB へ遷移（0.5〜1秒）
+</span></code></pre></div>
+<p><strong>NextAuth.js 設定例</strong>:</p>
+<div class="language-typescript highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// pages/api/auth/[...nextauth].ts</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">import</span><span class="w"> </span><span class="nx">NextAuth</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;next-auth&quot;</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">import</span><span class="w"> </span><span class="nx">CognitoProvider</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">&quot;next-auth/providers/cognito&quot;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">NextAuth</span><span class="p">({</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span><span class="nx">providers</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="nx">CognitoProvider</span><span class="p">({</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">      </span><span class="nx">clientId</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.COGNITO_CLIENT_ID</span><span class="p">,</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">      </span><span class="nx">clientSecret</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.COGNITO_CLIENT_SECRET</span><span class="p">,</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">      </span><span class="nx">issuer</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.COGNITO_ISSUER</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">      </span><span class="nx">authorization</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">        </span><span class="nx">params</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">          </span><span class="nx">prompt</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;none&quot;</span><span class="w"> </span><span class="c1">// サイレント認証を有効化</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">      </span><span class="p">}</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="p">})</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">  </span><span class="p">],</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">  </span><span class="nx">session</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">    </span><span class="nx">strategy</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;database&quot;</span><span class="w"> </span><span class="c1">// セッションストア方式（検討2の推奨方式）</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="p">})</span>
+</span></code></pre></div>
+<p><strong>ユーザー切り替え時の動作</strong>:</p>
+<ul>
+<li>アプリケーション単体のログアウト機能は提供せず、HENNGE One からサインアウトし、Cognito（Hosted UI）に再ログインしてもらう運用</li>
+<li>HENNGE One / Cognito のセッションが破棄されると、次回サイトアクセス時に BFF が未認証と判断し新しいユーザーでサイレント認証に遷移</li>
+<li>ブラウザに残る BFF セッション Cookie は次のサイレント認証完了時に新しいユーザー情報で上書き</li>
+<li>IdP 側のログアウト完了（HENNGE One と Cognito 双方）を確認してからサイトに戻る運用をユーザーに案内</li>
+</ul>
+</details>
+<div class="admonition info">
+<p class="admonition-title">サイレント認証とは</p>
+<p><strong>サイレント認証（Silent Authentication）</strong> は、OIDCの <code>prompt=none</code> パラメータを使用して、ユーザーに認証画面を表示せずにバックグラウンドで自動的に認証を行う仕組みです。IdP（HENNGE One）側にセッションが存在する場合、ユーザー操作なしで新しいトークンを取得できます。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">トークンフローの整理</p>
+<p>NextAuth.js からは Amazon Cognito の OIDC エンドポイントを利用します。Cognito は HENNGE One を外部 IdP としてフェデレーションしているため、<code>prompt=none</code> で Cognito にアクセスすると、必要に応じて HENNGE One へサイレントにリダイレクトし、既存の社内セッションを再利用します。</p>
+</div>
+</details>
+<hr />
+<h2 id="_14">🎯 主要な設計決定のまとめ<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<details class="success">
+<summary>採用した方式の一覧</summary>
+<table>
+<thead>
+<tr>
+<th>検討項目</th>
+<th>採用した方式</th>
+<th>主な理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>認可方式</strong></td>
+<td>AVP による実行時権限チェック</td>
+<td>JWT サイズ最小化、即時反映、柔軟性、監査ログ</td>
+</tr>
+<tr>
+<td><strong>ブラウザ⇔BFF認証情報管理</strong></td>
+<td>HttpOnly Cookie + サーバー側セッション</td>
+<td>XSS対策、トークン非露出、NextAuth.js標準</td>
+</tr>
+<tr>
+<td><strong>認証・認可実施箇所</strong></td>
+<td>BFF・API 多層防御</td>
+<td>早期リジェクション、多層防御、柔軟性</td>
+</tr>
+<tr>
+<td><strong>SSO 実装</strong></td>
+<td>サイレント認証（prompt=none）</td>
+<td>IdP セッション活用、ドメイン制約なし、実装軽微</td>
+</tr>
+</tbody>
+</table>
+</details>
+<details class="success">
+<summary>この構成の利点</summary>
+<p>✅ <strong>要件を完全に満たす</strong></p>
+<ul>
+<li>Next.js (BFF) + Spring Boot (API) のアーキテクチャを最大限活用</li>
+<li>HENNGE One（社内IdP）+ Cognito のシームレスなフェデレーション</li>
+<li>初期3サービス間での統一されたSSO体験（将来的なサービス追加も容易）</li>
+<li>グループベース権限 + 複雑な権限要件の両方に対応</li>
+</ul>
+<p>✅ <strong>セキュリティの強化</strong></p>
+<ul>
+<li><strong>最小権限の原則</strong>: JWT には <code>userId</code> + <code>groups</code> のみ、詳細権限は AVP で管理</li>
+<li><strong>多層防御</strong>: BFF と API の両方で独立した検証を実施、単一障害点を排除</li>
+<li><strong>XSS 対策</strong>: トークンをブラウザに一切露出させない HttpOnly Cookie + セッションストア方式</li>
+<li><strong>即時無効化</strong>: ログアウト・権限変更・不正アクセス検知時にサーバー側で即座にセッション削除</li>
+<li><strong>完全な監査証跡</strong>: CloudWatch Logs に全ての認可判定を自動記録、コンプライアンス要件に対応</li>
+</ul>
+<p>✅ <strong>高パフォーマンス・低コスト</strong></p>
+<ul>
+<li><strong>レスポンス時間</strong>: Redis キャッシュでミリ秒レベルの高速判定（キャッシュヒット時 &lt;5ms）</li>
+<li><strong>コスト削減</strong>: AVP API コール数を 80% 削減（月額約 70% のコスト削減、1,000 DAU で $96/月削減）</li>
+<li><strong>スケーラビリティ</strong>: 水平スケールアウトに対応（Redis 共有キャッシュでインスタンス間同期）</li>
+<li><strong>リージョン最適化</strong>: 東京リージョン（ap-northeast-1）で AVP を利用、低レイテンシを実現</li>
+</ul>
+<p>✅ <strong>開発・運用の効率化</strong></p>
+<ul>
+<li><strong>実装の簡潔さ</strong>: NextAuth.js のエコシステムを最大限活用、車輪の再発明を回避</li>
+<li><strong>責務の明確化</strong>: BFF（認証・認可・UI制御）と API（ビジネスロジック・データアクセス）で役割分担</li>
+<li><strong>早期リジェクション</strong>: BFF で不正リクエストを検知・拒否、API 負荷を大幅軽減</li>
+<li><strong>自動化</strong>: トークン更新、CSRF 対策、セッション管理、キャッシュ無効化が自動処理</li>
+<li><strong>デバッグの容易さ</strong>: 監査ログで認可判定の詳細を追跡可能</li>
+</ul>
+<p>✅ <strong>将来の拡張性</strong></p>
+<ul>
+<li><strong>サービス追加</strong>: 同じ認証フローを適用するだけで新規サービスを数時間で追加可能</li>
+<li><strong>権限要件の変化</strong>: Cedar ポリシー更新のみで柔軟に対応（アプリケーションコード修正不要）</li>
+<li><strong>RBAC + ABAC</strong>: ロールベース・属性ベース両方の認可モデルをサポート、段階的移行も可能</li>
+<li><strong>マルチチャネル対応</strong>: モバイルアプリ等、BFF 非経由の API 直接アクセスにも対応</li>
+<li><strong>既存環境への影響ゼロ</strong>: 完全に独立した環境で運用、既存サービスは無変更で継続運用</li>
+<li><strong>段階的移行</strong>: 新規サービスから順次適用、リスクを最小化</li>
+</ul>
+</details>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="最終更新日">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年11月10日 14:54:38 UTC">2025-11-10</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="作成日">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年11月10日 14:54:38 UTC">2025-11-10</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  ページトップへ戻る
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright 2025 infomart Inc.
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.instant", "navigation.instant.progress", "navigation.expand", "navigation.top", "navigation.tabs", "navigation.path", "header.autohide", "search.suggest", "search.highlight", "content.tabs.link"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f", "clipboard.copy": "\u30af\u30ea\u30c3\u30d7\u30dc\u30fc\u30c9\u3078\u30b3\u30d4\u30fc", "search.result.more.one": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3082\u30461\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.more.other": "\u3053\u306e\u30da\u30fc\u30b8\u5185\u306b\u3042\u3068#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.none": "\u4f55\u3082\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f", "search.result.one": "1\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.other": "#\u4ef6\u898b\u3064\u304b\u308a\u307e\u3057\u305f", "search.result.placeholder": "\u691c\u7d22\u30ad\u30fc\u30ef\u30fc\u30c9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044", "search.result.term.missing": "\u691c\u7d22\u306b\u542b\u307e\u308c\u306a\u3044", "select.version": "\u30d0\u30fc\u30b8\u30e7\u30f3\u5207\u308a\u66ff\u3048"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>
