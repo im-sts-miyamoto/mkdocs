@@ -929,9 +929,9 @@
 <ul>
 <li>✅ <strong>JWT サイズ最小化</strong>: <code>userId</code> + <code>groups</code> のみで~1KB、トークンサイズ問題を回避</li>
 <li>✅ <strong>柔軟性</strong>: Cedar ポリシーで複雑な権限要件（部署別、プロジェクト別など）に対応可能</li>
-<li>✅ <strong>即時反映</strong>: ポリシー更新で即座に権限変更が反映される（JWT 再発行不要）</li>
+<li>✅ <strong>即時反映</strong>: ポリシー更新で権限変更が反映される（JWT 再発行不要）</li>
 <li>✅ <strong>監査</strong>: CloudWatch Logs に認可判定の詳細ログを自動記録</li>
-<li>✅ <strong>パフォーマンス</strong>: Redis キャッシュでミリ秒レベルの高速判定</li>
+<li>✅ <strong>パフォーマンス</strong>: Redis キャッシュで高速な判定が可能</li>
 </ul>
 <p><strong>① を採用しない理由</strong>:</p>
 <ul>
@@ -963,13 +963,13 @@
 <ul>
 <li>ポリシー更新時: EventBridge → Lambda → Redis キャッシュ削除</li>
 <li>グループ変更時: Cognito Post Confirmation → Lambda → Redis キャッシュ削除</li>
-<li>即座に反映（数秒以内）</li>
+<li>イベント駆動で自動的にキャッシュを無効化</li>
 </ul>
 <p><strong>副戦略: TTL フォールバック</strong></p>
 <ul>
 <li>キャッシュ TTL: 5分</li>
 <li>イベント欠損時の安全ネット</li>
-<li>最悪でも5分以内に新しい権限が反映</li>
+<li>TTL期限切れ後に新しい権限が反映</li>
 </ul>
 <p><strong>キャッシュキー設計</strong>:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>avp:{userId}:{action}:{resource}
@@ -977,7 +977,7 @@
 </span></code></pre></div>
 <details class="example">
 <summary>コスト試算（具体例）</summary>
-<p><strong>前提: 1,000 DAU、各ユーザー1日30リクエスト、キャッシュヒット率80%</strong></p>
+<p><strong>前提: 1,000 DAU、各ユーザー1日30リクエスト、想定キャッシュヒット率80%</strong></p>
 <p><strong>キャッシュなし（毎回 AVP 呼び出し）</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>AVP コール数/月 = 1,000 × 30 × 30 = 900,000 コール
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>AVP コスト = 900,000 / 1,000 × $0.15 = $135/月
@@ -1024,7 +1024,7 @@
 <li>✅ ブラウザとBFFは同一オリジン（同じドメイン）なのでCookieが自然</li>
 <li>✅ HttpOnly 属性によりJavaScriptからアクセス不可（XSS対策）</li>
 <li>✅ Next.js の SSR/SSG 機能との親和性が高い</li>
-<li>✅ NextAuth.js のエコシステムを最大限活用できる</li>
+<li>✅ NextAuth.js の機能を活用できる</li>
 </ul>
 <p><strong>Authorizationヘッダーを採用しない理由</strong>:</p>
 <ul>
@@ -1038,7 +1038,7 @@
 <p><strong>① ステートレスJWT方式</strong></p>
 <ul>
 <li>Cookie に Cognito の JWT（Access Token、Refresh Token）をそのまま平文で格納</li>
-<li>サーバー側のストレージ不要で完全ステートレス</li>
+<li>サーバー側のストレージ不要でステートレス</li>
 <li>NextAuth.js を使わない独自実装が必要</li>
 </ul>
 <p><strong>② 暗号化JWT方式（NextAuth.js JWT戦略）</strong></p>
@@ -1051,7 +1051,7 @@
 <ul>
 <li>Cookie にはセッションIDのみを格納（数十バイト）</li>
 <li>Cognito トークンはサーバー側のセッションストア（DynamoDB/Redis）に保存</li>
-<li>NextAuth.js のデフォルト方式</li>
+<li>データベースアダプターの設定が必要</li>
 </ul>
 <h3 id="_9">比較表<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <table>
@@ -1067,7 +1067,7 @@
 <tbody>
 <tr>
 <td><strong>実装の容易さ</strong></td>
-<td>❌ 完全自前実装</td>
+<td>❌ 自前実装が必要</td>
 <td>🟢 NextAuth.js が<br>自動対応</td>
 <td>🟡 DynamoDB/Redisの<br>準備が必要</td>
 <td>②</td>
@@ -1090,12 +1090,12 @@
 <td><strong>即時無効化</strong></td>
 <td>❌ 不可</td>
 <td>❌ 不可</td>
-<td>✅ サーバー側で即座に可能</td>
+<td>✅ サーバー側で可能</td>
 <td>③</td>
 </tr>
 <tr>
 <td><strong>Cognitoトークン更新</strong></td>
-<td>❌ 完全自前実装</td>
+<td>❌ 自前実装が必要</td>
 <td>🟡 <code>jwt</code>コールバックで<br>ロジック実装が必要</td>
 <td>✅ デフォルトで自動処理</td>
 <td>③</td>
@@ -1109,8 +1109,8 @@
 </tr>
 <tr>
 <td><strong>ステートレス性</strong></td>
-<td>✅ 完全ステートレス</td>
-<td>✅ 完全ステートレス</td>
+<td>✅ ステートレス</td>
+<td>✅ ステートレス</td>
 <td>❌ セッションストア必要</td>
 <td>①②</td>
 </tr>
@@ -1127,7 +1127,7 @@
 <p><strong>選択理由</strong>:</p>
 <ul>
 <li>✅ <strong>セキュリティ最優先</strong>: Cognitoトークンがブラウザに一切露出せず、XSS攻撃のリスクを最小化</li>
-<li>✅ <strong>即時無効化</strong>: ログアウトや権限変更時にサーバー側で即座にセッションを無効化可能</li>
+<li>✅ <strong>即時無効化</strong>: ログアウトや権限変更時にサーバー側でセッションを無効化可能</li>
 <li>✅ <strong>Cookie サイズ</strong>: 4KB制限を気にする必要が一切ない</li>
 <li>✅ <strong>実装の簡潔さ</strong>: NextAuth.js のデフォルト動作でトークン更新・CSRF対策が自動処理</li>
 <li>🟡 セッションストアの準備が必要だが、DynamoDB（サーバーレス）で運用負荷を最小化</li>
@@ -1137,14 +1137,14 @@
 <li>❌ <strong>Cookie サイズ超過</strong>: Cognito JWT（2〜3KB）+ Refresh Token で4KB制限を超える可能性が高い</li>
 <li>❌ <strong>セキュリティリスク</strong>: 平文トークンがCookieに格納される</li>
 <li>❌ <strong>即時無効化不可</strong>: ログアウト後もトークン有効期限まで使用可能</li>
-<li>❌ <strong>実装コスト</strong>: トークン更新・CSRF対策などを完全自前実装</li>
+<li>❌ <strong>実装コスト</strong>: トークン更新・CSRF対策などを自前実装する必要がある</li>
 </ul>
 <p><strong>② を採用しない理由</strong>:</p>
 <ul>
 <li>❌ <strong>Cookie サイズ超過</strong>: 暗号化オーバーヘッドで①よりさらに大きくなり、4KB制限超過の可能性が極めて高い</li>
 <li>❌ <strong>即時無効化不可</strong>: ログアウト後もトークン有効期限まで使用可能（セキュリティリスク）</li>
 <li>🟡 <strong>トークン更新実装</strong>: <code>jwt</code> コールバックで Cognito Refresh Token のロジックを実装する必要がある</li>
-<li>ℹ️ 完全ステートレスが絶対条件の場合は選択肢になるが、本構成では③が適切</li>
+<li>ℹ️ ステートレスが要件の場合は選択肢になるが、本構成では③が適切</li>
 </ul>
 <details class="example">
 <summary>③ 推奨方式の実装詳細</summary>
@@ -1189,12 +1189,12 @@
 <ul>
 <li>ID Token: 1時間（Cognito デフォルト）</li>
 <li>Access Token: 1時間（Cognito デフォルト）</li>
-<li>Refresh Token: 30日（NextAuth.js が自動更新）</li>
+<li>Refresh Token: 設定した有効期限（NextAuth.js が自動更新）</li>
 <li>セッション: NextAuth.js が Refresh Token を使用して自動延長</li>
 </ul>
 <p><strong>セッション無効化</strong></p>
 <ul>
-<li>ログアウト時: サーバー側でセッションを即座に削除</li>
+<li>ログアウト時: サーバー側でセッションを削除</li>
 <li>権限変更時: 必要に応じてセッションを無効化可能</li>
 <li>不正アクセス検知時: 管理者が特定ユーザーのセッションを強制終了可能</li>
 </ul>
@@ -1414,7 +1414,7 @@
 </details>
 <details class="note">
 <summary>検討4: SSO 実装方針</summary>
-<p><strong>課題</strong>: 複数サービス間でのシームレスなログイン体験をどう実現するか？</p>
+<p><strong>課題</strong>: 複数サービス間でのログイン体験をどう実現するか？</p>
 <h3 id="_12">選択肢の概要<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
 <p><strong>① Cookie共有方式</strong></p>
 <ul>
@@ -1470,8 +1470,8 @@
 <tr>
 <td><strong>サービス間遷移</strong></td>
 <td>✅ 即座（0秒）</td>
-<td>🟡 サイレント認証経由<br>（0.5〜1秒）</td>
-<td>🟡 トークン引き回し<br>（0.5〜1秒）</td>
+<td>🟡 サイレント認証経由<br>（リダイレクト発生）</td>
+<td>🟡 トークン引き回し<br>（リダイレクト発生）</td>
 <td>①</td>
 </tr>
 <tr>
@@ -1500,19 +1500,19 @@
 <p><strong>推奨する選択肢</strong>: ✅ <strong>② サイレント認証方式（<code>prompt=none</code>）</strong></p>
 <p><strong>選択理由</strong>:</p>
 <ul>
-<li>✅ <strong>IdP セッション活用</strong>: HENNGE One のログイン状態を毎回再利用、IdP 側でのログアウトが即座に全サービスに反映</li>
+<li>✅ <strong>IdP セッション活用</strong>: HENNGE One のログイン状態を毎回再利用、IdP 側でのログアウトが次回アクセス時に全サービスに反映</li>
 <li>✅ <strong>ドメイン制約なし</strong>: サブドメイン構成に依存せず、将来的なドメイン変更にも柔軟に対応</li>
 <li>✅ <strong>実装の軽さ</strong>: NextAuth.js 標準フローに <code>prompt=none</code> パラメータを追加するのみ</li>
 <li>✅ <strong>セキュリティ</strong>: 各サービスがホスト限定 Cookie で独立、Cookie 漏洩時の影響範囲を最小化</li>
 <li>✅ <strong>スケーラビリティ</strong>: 新規サービス追加時も同じフローを適用、追加実装不要</li>
-<li>🟡 サービス間遷移に 0.5〜1秒のリダイレクトが発生するが、UX上の問題は限定的</li>
+<li>🟡 サービス間遷移にリダイレクトが発生するが、UX上の問題は限定的</li>
 </ul>
 <p><strong>① を採用しない理由</strong>:</p>
 <ul>
 <li>❌ <strong>ドメイン制約</strong>: サブドメイン構成（<code>service-a.example.com</code>, <code>service-b.example.com</code>）が必須</li>
 <li>❌ <strong>Cookie範囲</strong>: 親ドメイン全体に Cookie が送信され、セキュリティリスクが高まる</li>
 <li>❌ <strong>IdP ログアウト反映</strong>: HENNGE One でログアウトしても、ブラウザ上の共有 Cookie が残る可能性</li>
-<li>ℹ️ サブドメイン構成が確定しており、即座の遷移が必須要件の場合は選択肢になる</li>
+<li>ℹ️ サブドメイン構成が確定しており、リダイレクトなしの遷移が必須要件の場合は選択肢になる</li>
 </ul>
 <p><strong>③ を採用しない理由</strong>:</p>
 <ul>
@@ -1537,13 +1537,13 @@
 </span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
 </span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>【2回目以降（同一サービス）】
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>4. サービスA にアクセス
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>5. → Cognito に `prompt=none` でリダイレクト → 背後で HENNGE One セッションを再利用（0.5〜1秒）
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>5. → Cognito に `prompt=none` でリダイレクト → 背後で HENNGE One セッションを再利用
 </span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>6. → ページ表示
 </span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
 </span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>【サービス間移動】
 </span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>7. サービスA で作業中
 </span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>8. サービスB へのリンクをクリック
-</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>9. → サイレント認証経由で Cognito/HENNGE One を往復しサービスB へ遷移（0.5〜1秒）
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>9. → サイレント認証経由で Cognito/HENNGE One を往復しサービスB へ遷移
 </span></code></pre></div>
 <p><strong>NextAuth.js 設定例</strong>:</p>
 <div class="language-typescript highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1">// pages/api/auth/[...nextauth].ts</span>
@@ -1623,44 +1623,28 @@
 </details>
 <details class="success">
 <summary>この構成の利点</summary>
-<p>✅ <strong>要件を完全に満たす</strong></p>
+<p>✅ <strong>セキュリティ</strong></p>
 <ul>
-<li>Next.js (BFF) + Spring Boot (API) のアーキテクチャを最大限活用</li>
-<li>HENNGE One（社内IdP）+ Cognito のシームレスなフェデレーション</li>
-<li>初期3サービス間での統一されたSSO体験（将来的なサービス追加も容易）</li>
-<li>グループベース権限 + 複雑な権限要件の両方に対応</li>
+<li>JWT サイズ最小化（<code>userId</code> + <code>groups</code> のみ）で詳細権限は AVP で管理</li>
+<li>BFF と API の多層防御、トークンをブラウザに露出させない設計</li>
+<li>権限変更・ログアウト時のセッション即時無効化</li>
+<li>CloudWatch Logs による監査証跡</li>
 </ul>
-<p>✅ <strong>セキュリティの強化</strong></p>
+<p>✅ <strong>パフォーマンス・コスト</strong></p>
 <ul>
-<li><strong>最小権限の原則</strong>: JWT には <code>userId</code> + <code>groups</code> のみ、詳細権限は AVP で管理</li>
-<li><strong>多層防御</strong>: BFF と API の両方で独立した検証を実施、単一障害点を排除</li>
-<li><strong>XSS 対策</strong>: トークンをブラウザに一切露出させない HttpOnly Cookie + セッションストア方式</li>
-<li><strong>即時無効化</strong>: ログアウト・権限変更・不正アクセス検知時にサーバー側で即座にセッション削除</li>
-<li><strong>完全な監査証跡</strong>: CloudWatch Logs に全ての認可判定を自動記録、コンプライアンス要件に対応</li>
+<li>Redis キャッシュによる高速化と AVP API コスト削減</li>
+<li>水平スケールアウト対応</li>
 </ul>
-<p>✅ <strong>高パフォーマンス・低コスト</strong></p>
+<p>✅ <strong>開発・運用効率</strong></p>
 <ul>
-<li><strong>レスポンス時間</strong>: Redis キャッシュでミリ秒レベルの高速判定（キャッシュヒット時 &lt;5ms）</li>
-<li><strong>コスト削減</strong>: AVP API コール数を 80% 削減（月額約 70% のコスト削減、1,000 DAU で $96/月削減）</li>
-<li><strong>スケーラビリティ</strong>: 水平スケールアウトに対応（Redis 共有キャッシュでインスタンス間同期）</li>
-<li><strong>リージョン最適化</strong>: 東京リージョン（ap-northeast-1）で AVP を利用、低レイテンシを実現</li>
+<li>NextAuth.js 活用による実装の簡潔さ</li>
+<li>BFF での早期リジェクション、責務の明確な分離</li>
+<li>トークン更新・CSRF 対策・セッション管理の自動化</li>
 </ul>
-<p>✅ <strong>開発・運用の効率化</strong></p>
+<p>✅ <strong>拡張性</strong></p>
 <ul>
-<li><strong>実装の簡潔さ</strong>: NextAuth.js のエコシステムを最大限活用、車輪の再発明を回避</li>
-<li><strong>責務の明確化</strong>: BFF（認証・認可・UI制御）と API（ビジネスロジック・データアクセス）で役割分担</li>
-<li><strong>早期リジェクション</strong>: BFF で不正リクエストを検知・拒否、API 負荷を大幅軽減</li>
-<li><strong>自動化</strong>: トークン更新、CSRF 対策、セッション管理、キャッシュ無効化が自動処理</li>
-<li><strong>デバッグの容易さ</strong>: 監査ログで認可判定の詳細を追跡可能</li>
-</ul>
-<p>✅ <strong>将来の拡張性</strong></p>
-<ul>
-<li><strong>サービス追加</strong>: 同じ認証フローを適用するだけで新規サービスを数時間で追加可能</li>
-<li><strong>権限要件の変化</strong>: Cedar ポリシー更新のみで柔軟に対応（アプリケーションコード修正不要）</li>
-<li><strong>RBAC + ABAC</strong>: ロールベース・属性ベース両方の認可モデルをサポート、段階的移行も可能</li>
-<li><strong>マルチチャネル対応</strong>: モバイルアプリ等、BFF 非経由の API 直接アクセスにも対応</li>
-<li><strong>既存環境への影響ゼロ</strong>: 完全に独立した環境で運用、既存サービスは無変更で継続運用</li>
-<li><strong>段階的移行</strong>: 新規サービスから順次適用、リスクを最小化</li>
+<li>新規サービス追加が容易（同じ認証フローを適用）</li>
+<li>Cedar ポリシー更新のみで権限要件変更に対応</li>
 </ul>
 </details>
 
@@ -1685,7 +1669,7 @@
     <span class="md-icon" title="最終更新日">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年11月10日 14:54:38 UTC">2025-11-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025年11月11日 01:30:48 UTC">2025-11-11</span>
   </span>
 
     
